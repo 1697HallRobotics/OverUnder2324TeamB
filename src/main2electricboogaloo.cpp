@@ -43,12 +43,15 @@ void pre_auton() {
     leftMotors.setVelocity(100, pct);
     rightMotors.setVelocity(100, pct);
 
-    Brain.Screen.drawImageFromBuffer(logo_red_map, 0, 0, sizeof(logo_red_map));
+    Brain.Screen.drawImageFromBuffer(logo_blue_map, 0, 0, sizeof(logo_blue_map));
 }
 
 void autonomous_red() {
-    leftMotors.spinFor(reverse, 600, deg, false);
-    rightMotors.spinFor(reverse, 600, deg, false);
+    leftMotors.spinFor(reverse, 800, deg, false);
+    rightMotors.spinFor(reverse, 800, deg, false);
+    this_thread::sleep_for(2 * 1000);
+    leftMotors.spinFor(fwd, 200, deg, false);
+    rightMotors.spinFor(fwd, 200, deg, false);
 }
 void autonomous_blu() {
     intakeMotor.spinFor(fwd, 5, sec);
@@ -57,9 +60,6 @@ void autonomous_blu() {
 void driver_control() {
     Controller.ButtonA.pressed(spinCatapult);
 
-    Controller.ButtonR2.pressed([]() {
-        cataMotor.spinFor(300, deg, false);
-    });
     cataMotor.setPosition(0, deg);
 
     while (true) {
@@ -85,22 +85,23 @@ void driver_control() {
         } else {
             intakeMotor.stop(hold);
         }
+
+        if (Controller.ButtonR2.pressing()) {
+            cataMotor.spin(fwd);
+        } else {
+            cataMotor.stop(hold);
+        }
         
     }
 }
 
 int main() {
-    if (!testingAutonomous && !testingDriverControl) {
-        // Set up callbacks for autonomous and driver control periods.
-        Competition.autonomous(autonomous_red);
-        Competition.drivercontrol(driver_control);
-    }
+    Competition.autonomous(autonomous_red);
+    Competition.drivercontrol(driver_control);
+    
 
     // Run the pre-autonomous function. 
     pre_auton();
-
-    // If we are currently testing autonomous or driver control, run the respective function.
-    if (testingAutonomous) autonomous_blu();
 
     while (true)
     {
