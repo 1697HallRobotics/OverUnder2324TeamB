@@ -12,7 +12,6 @@
 using namespace vex;
 using namespace std;
 
-
 #define waitUntil(condition)                                                   \
   do {                                                                         \
     wait(5, msec);                                                             \

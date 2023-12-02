@@ -16,7 +16,7 @@ motor cataMotorL = motor(PORT10, true);
 motor cataMotorR = motor(PORT6, false);
 motor_group cataMotor = motor_group(cataMotorL, cataMotorR);
 
-motor intakeMotor = motor(PORT22, true);
+motor intakeMotor = motor(PORT2, true);
 
 // define your global instances of motors and other devices here
 brain Brain = brain(); // make sure the robot is not braindead
@@ -34,9 +34,23 @@ void spinCatapult() {
   spinning = !spinning;
 }
 
+void pre_auton() {
+    cataMotor.setMaxTorque(100, pct);
+    cataMotor.setVelocity(75, pct);
+
+    Brain.Screen.drawImageFromBuffer(logo_red_map, 0, 0, sizeof(logo_red_map));
+}
+
+void autonomous() {
+    intakeMotor.spinFor(fwd, 5, sec);
+}
+
 void driver_control() {
     Controller.ButtonA.pressed(spinCatapult);
 
+    Controller.ButtonR2.pressed([]() {
+        cataMotor.spinFor(185, deg, false);
+    });
     cataMotor.setPosition(0, deg);
 
     while (true) {
@@ -67,5 +81,20 @@ void driver_control() {
 }
 
 int main() {
-    
+    if (!testingAutonomous && !testingDriverControl) {
+        // Set up callbacks for autonomous and driver control periods.
+        Competition.autonomous(autonomous);
+        Competition.drivercontrol(driver_control);
+    }
+
+    // Run the pre-autonomous function. 
+    pre_auton();
+
+    // If we are currently testing autonomous or driver control, run the respective function.
+    if (testingAutonomous) autonomous();
+
+    while (true)
+    {
+        wait(100, msec);
+    }
 }
