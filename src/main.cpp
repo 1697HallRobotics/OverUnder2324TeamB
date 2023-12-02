@@ -5,7 +5,7 @@
 /*    Created:      9/29/2023, 2:44:10 PM                                     */
 /*    Description:  V5 project                                                */
 /*                                                                            */
-/*----------------------------------------------------------------------------*/
+/*----------------------------------------------------------------------------
 
 #pragma region Includes
 #include "vex.h"
@@ -65,7 +65,7 @@ void switchInputScheme(void) {
 /*  or the autonomous and usercontrol tasks will not be started.  This       */
 /*  function is only called once after the V5 has been powered on and        */
 /*  not every time that the robot is disabled.                               */
-/*---------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------
 
 
 void pre_auton(void) {
@@ -91,7 +91,7 @@ void finishAutonomous(void) {
 /*  a VEX Competition.                                                       */
 /*                                                                           */
 /*  dramatic bold text                                                       */
-/*---------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------
 void autonomous(void) {
   // testing code, in order to simulate the competition timer.
   if (testingAutonomous) {
@@ -133,7 +133,7 @@ void autonomous(void) {
 /*  a VEX Competition.                                                       */
 /*                                                                           */
 /*  You must modify the code to add your own robot specific commands here.   */
-/*---------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------
 
 bool spinning = false;
 
@@ -216,5 +216,5 @@ int maindisabled() {
   while (true) {
     wait(100, msec);
   }
-  */
 }
+*/
