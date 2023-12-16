@@ -1,5 +1,6 @@
 #include "vex.h"
 
+brain Brain = brain(); // make sure the robot is not braindead
 competition Competition = competition();
 controller Controller = controller();
 
@@ -18,8 +19,7 @@ motor_group cataMotor = motor_group(cataMotorL, cataMotorR);
 
 motor intakeMotor = motor(PORT2, true);
 
-// define your global instances of motors and other devices here
-brain Brain = brain(); // make sure the robot is not braindead
+pneumatics Pneumatics = pneumatics(Brain.ThreeWirePort.A);
 
 bool spinning = false;
 
@@ -63,15 +63,15 @@ void driver_control() {
     cataMotor.setPosition(0, deg);
 
     while (true) {
-        leftPower = Controller.Axis3.position() * speed;
-        rightPower = Controller.Axis1.position() * speed;
+        leftPower = Controller.Axis3.position();
+        rightPower = Controller.Axis1.position();
 
         if(abs(leftPower) <= deadzone) leftPower = 0;
         if(abs(rightPower) <= deadzone) rightPower = 0;
 
         if (leftPower != 0 || rightPower != 0) {
-            spinRightFwd((leftPower - rightPower) * 0.9);
-            spinLeftFwd((leftPower + rightPower) * 0.9);
+            spinRightFwd((leftPower - rightPower) * speed);
+            spinLeftFwd((leftPower + rightPower) * speed);
         }
         else {
             leftMotors.stop(brake);

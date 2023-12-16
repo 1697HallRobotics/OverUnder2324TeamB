@@ -27,37 +27,8 @@ using namespace std;
 #define spinLeftRev(velocity) leftMotors.spin(directionType::rev, velocity, velocityUnits::pct);
 #define spinRightRev(velocity) rightMotors.spin(directionType::rev, velocity, velocityUnits::pct);
 
-const bool testingAutonomous = false;
-const bool testingDriverControl = false;
-const bool recordingAutonomous = false;
-const char* controllerRecordingFileName = "controller-recording-#######.cir";
-
-const bool isBlue = true;
-
-struct controller_data
-{
-  int controllerAxis1;
-  int controllerAxis2;
-  int controllerAxis3;
-  int controllerAxis4;
-  bool controllerButtonAPressed;
-  bool controllerButtonBPressed;
-  bool controllerButtonXPressed;
-  bool controllerButtonYPressed;
-  bool controllerButtonLeftPressed;
-  bool controllerButtonRightPressed;
-  bool controllerButtonUpPressed;
-  bool controllerButtonDownPressed;
-  bool controllerTriggerL1Pressed;
-  bool controllerTriggerL2Pressed;
-  bool controllerTriggerR1Pressed;
-  bool controllerTriggerR2Pressed;
-} controllerData, readData;
-bool recording;
-
-
-double speed = 1;
-double deadzone = 10.1;
+const double speed = 0.9;
+const double deadzone = 10.1;
 double leftPower = 0;
 double rightPower = 0;
 
@@ -70,13 +41,6 @@ inputScheme currentScheme = inputScheme::CLASSIC_RC;
 
 bool isGrabberSpinning = false;
 directionType grabberTurningDirection = directionType::fwd;
-
-// what gets recorded
-std::vector<controller_data> recordedInputs;
-
-// what the file gets read into
-std::vector<controller_data> readInputs;
-
 
 uint8_t logo_blue_map[] = {
     0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a, 0x00, 0x00, 0x00, 0x0d, 0x49, 
